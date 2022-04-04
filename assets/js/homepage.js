@@ -81,9 +81,11 @@ var displayinfo = function(name, lat, lon) {
 
 //to determine input and button, return geo info
 var cityname = function (name) {
+  name = name.charAt(0).toUpperCase() + name.slice(1)
   if (name.includes("/")) {
     var state = name.split('/')[0];
     var city = name.split('/')[1];
+    city = city.charAt(0).toUpperCase() + city.slice(1)
     var statecity = "";
     var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
@@ -95,8 +97,8 @@ var cityname = function (name) {
             addhistory(name);
           }
         }
-      })});
-  } else {
+      })})
+    } else {
     var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
@@ -111,21 +113,47 @@ var cityname = function (name) {
   }
   };
 
+
+var clickcityname = function (name) {
+  if (name.includes("/")) {
+    var state = name.split('/')[0];
+    var city = name.split('/')[1];
+    var statecity = "";
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    fetch(apiUrl).then(function(response) {
+      response.json().then(function(data) {
+        for (var i = 0; i<data.length; i++) {
+          if(data[i].state == state) {
+            statecity = data[i].state + "/" + data[i].name
+            displayinfo(statecity, data[i].lat, data[i].lon);
+          }
+        }
+      })});
+  } else {
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    fetch(apiUrl).then(function(response) {
+      response.json().then(function(data) {
+      var city = data[0].state + "/" + data[0].name;
+      displayinfo(city, data[0].lat, data[0].lon);
+      })}); 
+  }
+  };
+  
 // function to add history button
 var addhistory = function(name) {
-  var newb = document.createElement("button");
-  newb.setAttribute("type", "click");
-  newb.setAttribute("class", "btn");
-  newb.textContent = name;
-  historybtn.removeChild(historybtn.lastElementChild);
-  historybtn.insertBefore(newb, historybtn.firstChild);
-  searchhistory.pop();
-  searchhistory.unshift(name);
-  savecity(name);
+    var newb = document.createElement("button");
+    newb.setAttribute("type", "click");
+    newb.setAttribute("class", "btn");
+    newb.textContent = name;
+    historybtn.removeChild(historybtn.lastElementChild);
+    historybtn.insertBefore(newb, historybtn.firstChild);
+    searchhistory.pop();
+    searchhistory.unshift(name);
+    savecity(name);
 };
 
 $("#history-buttons").on("click", "button", function() {
-  cityname(this.textContent);
+  clickcityname(this.textContent);
   savecity(this.textContent);
 });    
 
@@ -147,14 +175,14 @@ var savecity = function(a) {
 
 var loadcity = function() {
   if (localStorage.length > 0) {;
-    cityname(localStorage.getItem("city"));
+    clickcityname(localStorage.getItem("city"));
   } else {
-    cityname("Atlanta");
+    clickcityname("Atlanta");
   }
   if (JSON.parse(localStorage.getItem("s"))) {
     searchhistory = JSON.parse(localStorage.getItem("s"))
   }
-  for (var i = 0; i < searchhistory.length; i++) {
+  for (var i = 0; i < 9; i++) {
     var a =  "b" + i;
     document.getElementById(a).textContent = searchhistory[i];
   }

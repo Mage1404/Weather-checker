@@ -87,7 +87,7 @@ var cityname = function (name) {
     var city = name.split('/')[1];
     city = city.charAt(0).toUpperCase() + city.slice(1)
     var statecity = "";
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
         for (var i = 0; i<data.length; i++) {
@@ -99,7 +99,7 @@ var cityname = function (name) {
         }
       })})
     } else {
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
         if (data.length > 0) {
@@ -119,7 +119,7 @@ var clickcityname = function (name) {
     var state = name.split('/')[0];
     var city = name.split('/')[1];
     var statecity = "";
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=20&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
         for (var i = 0; i<data.length; i++) {
@@ -130,7 +130,7 @@ var clickcityname = function (name) {
         }
       })});
   } else {
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=1&appid=6462e7bf2ac1de2d6ef753ff47a047af"
     fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
       var city = data[0].state + "/" + data[0].name;

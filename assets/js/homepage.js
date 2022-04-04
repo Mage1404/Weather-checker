@@ -12,7 +12,6 @@ var displayinfo = function(name, lat, lon) {
 
   fetch(apiUrl).then(function(response) {
       response.json().then(function(data) {
-        console.log(data);
         var todaydate = data.daily[0];
         var icon = document.createElement("img");
         var todayweather = "https://openweathermap.org/img/wn/" + todaydate.weather[0].icon + ".png";
